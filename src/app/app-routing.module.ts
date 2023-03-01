@@ -1,4 +1,4 @@
-import { AddProductComponent } from './modules/core/components/product-list/add-product/add-product.component';
+import { ProductComponent } from './modules/core/components/product-list/product/product.component';
 import { ProductListComponent } from './modules/core/components/product-list/product-list.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NgModule } from '@angular/core';
@@ -18,7 +18,12 @@ const routes: Routes = [
   {
     path: 'add-product',
 
-    component: AddProductComponent,
+    component: ProductComponent,
+  },
+  {
+    path: 'edit-product:/id',
+
+    component: ProductComponent,
   },
   {
     path: '**',

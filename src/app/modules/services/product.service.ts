@@ -2,6 +2,7 @@ import { LocalStorageService } from './local-storage.service';
 import { Product } from './../core/components/product-list/_models/product.model';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { productsMocks } from '../shared/mocks/product.mocks';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
@@ -26,29 +27,7 @@ export class ProductService {
     this.products$.next(this.products);
   }
   populateProduct() {
-    let productsToPopualte: Product[] = [
-      {
-        id: 1,
-        code: 1,
-        name: 'Product 1',
-        price: 120,
-        lastUpdated: new Date(),
-      },
-      {
-        id: 2,
-        code: 2,
-        name: 'Product 2',
-        price: 90,
-        lastUpdated: new Date(),
-      },
-      {
-        id: 3,
-        code: 3,
-        name: 'Product 3',
-        price: 150,
-        lastUpdated: new Date(),
-      },
-    ];
+    let productsToPopualte: Product[] = productsMocks;
 
     this.products.push(...productsToPopualte);
 
@@ -59,6 +38,9 @@ export class ProductService {
   addProduct(product: Product) {
     if (!product) return;
 
+    product.id = this.getLastProductId() + 1;
+    product.code = this.getLastProductCode() + 1;
+    
     product.lastUpdated = new Date();
 
     this.products.push(product);
@@ -70,6 +52,11 @@ export class ProductService {
     let last = this.products[this.products.length - 1];
 
     return last ? last.code : 1;
+  }
+  getLastProductId() {
+    let last = this.products[this.products.length - 1];
+
+    return last ? last.id : 1;
   }
   getProductsObservable() {
     return this.products$.asObservable();

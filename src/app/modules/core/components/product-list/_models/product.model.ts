@@ -1,3 +1,4 @@
+import { Feature } from './../../features/_models/feature.model';
 export interface Product {
   id: number;
   code: number;
@@ -5,4 +6,5 @@ export interface Product {
   price: number;
   lastUpdated?: Date;
   isChecked?: boolean;
+  features: Feature[];
 }

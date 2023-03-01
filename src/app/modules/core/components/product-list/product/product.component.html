@@ -1,0 +1,90 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 project-list">
+      <div class="card">
+        <div class="card-header row">
+          <h2>Add Product</h2>
+          <div class="col-2"></div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="onAdd()" #addForm="ngForm">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="">Name</label>
+                  <input
+                    pInputText
+                    type="text"
+                    class="form-control"
+                    name="title"
+                    id="title"
+                    placeholder="name..."
+                    formControlName="name"
+                  />
+
+                  <div
+                    *ngIf="Name.hasError('required') && addForm.submitted"
+                    class="error-msg p-1 small"
+                    role="alert"
+                  >
+                    <i class="fas fa-times-circle me-2"></i>
+                    Name is Required
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="">Price</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    pInputText
+                    name="title"
+                    id="title"
+                    placeholder="price..."
+                    formControlName="price"
+                  />
+
+                  <div
+                    *ngIf="Price.hasError('required') && addForm.submitted"
+                    class="error-msg p-1 small"
+                    role="alert"
+                  >
+                    <i class="fas fa-times-circle me-2"></i>
+                    Price is Required
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="">Features</label>
+                  <p-multiSelect
+                    [options]="features"
+                    optionLabel="name"
+                    placeholder="select..."
+                    styleClass="form-control"
+                    formControlName="features"
+                  ></p-multiSelect>
+
+                  <div
+                    *ngIf="Features.hasError('required') && addForm.submitted"
+                    class="error-msg p-1 small"
+                    role="alert"
+                  >
+                    <i class="fas fa-times-circle me-2"></i>
+                    Select at least one feature
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 d-flex mt-4">
+                <button type="submit" class="btn btn-primary me-2">Add</button>
+                <button type="submit" class="btn btn-danger">Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

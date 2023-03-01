@@ -53,6 +53,7 @@
                     <th scope="col">Code</th>
                     <th scope="col">Name</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Features</th>
                     <th scope="col">LastUpdated</th>
                   </tr>
                 </thead>
@@ -87,6 +88,11 @@
                     <td>{{ item?.code }}</td>
                     <td>{{ item?.name }}</td>
                     <td>{{ item?.price }}</td>
+                    <td>
+                      <span class="badge rounded-pill bg-primary me-1" *ngFor="let feature of item?.features">{{
+                        feature.name
+                      }}</span>
+                    </td>
                     <td>{{ item?.lastUpdated | date : "yyyy-MM-dd" }}</td>
                   </tr>
                 </tbody>

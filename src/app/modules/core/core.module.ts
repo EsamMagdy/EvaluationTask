@@ -1,8 +1,9 @@
+import { PrimeNgModule } from './../shared/primeng.module';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { AddProductComponent } from './components/product-list/add-product/add-product.component';
+import { ProductComponent } from './components/product-list/product/product.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -10,10 +11,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
-    AddProductComponent,
+    ProductComponent,
     FooterComponent,
     NavbarComponent,
     ProductListComponent,
@@ -31,15 +34,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       closeButton: true,
       enableHtml: true,
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    NgSelectModule,
+    PrimeNgModule,
   ],
   exports: [
-    AddProductComponent,
+    ProductComponent,
     FooterComponent,
     NavbarComponent,
     ProductListComponent,
     SidebarComponent,
-    ToastrModule
+    ToastrModule,
+    NgMultiSelectDropDownModule,
+    NgSelectModule,
   ],
 })
 export class CoreModule {}
