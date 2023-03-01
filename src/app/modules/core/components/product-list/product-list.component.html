@@ -1,0 +1,109 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 project-list">
+      <div class="card">
+        <div class="card-header row">
+          <div class="col-8">
+            <button class="btn btn-primary p-nav" role="button">
+              <i class="fa fa-plus p-icon"></i>Model
+            </button>
+          </div>
+          <div class="col-2">
+            <input
+              #modelSearchValue
+              type="text"
+              class="form-control"
+              placeholder="search......"
+            />
+          </div>
+          <div class="col-2">
+            <button
+              type="button"
+              class="btn btn-danger float-right"
+              (click)="deleteProductsForChecked()"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-info" role="alert" *ngIf="!products?.length">
+            No Products
+          </div>
+          <!-- <ngb-alert
+            [type]="'info'"
+            [dismissible]="false"
+            *ngIf="!models?.items?.length"
+          >
+            No Model Data
+          </ngb-alert> -->
+          <ng-container *ngIf="products?.length">
+            <div class="table-responsive">
+              <table class="table" #modelTable>
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      <input
+                        (change)="checkUncheckAll($event.target)"
+                        type="checkbox"
+                      />
+                    </th>
+                    <th scope="col " class="align-center">Actions</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Code</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">LastUpdated</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="
+                      let item of products
+                        | slice
+                          : (pageNumber - 1) * pageSize
+                          : pageNumber * pageSize
+                    "
+                  >
+                    <th scope="row">
+                      <input
+                        [(ngModel)]="item.isChecked"
+                        [ngModelOptions]="{ standalone: true }"
+                        type="checkbox"
+                      />
+                    </th>
+                    <td width="20%" class="align-center">
+                      <a role="button" class="btn btn-primary btn-sm me-2"
+                        ><i class="fa fa-pencil"></i>
+                      </a>
+                      <a
+                        role="button"
+                        class="btn btn-danger btn-sm"
+                        (click)="deleletProductFunc(item.id)"
+                        ><i class="fa fa-trash"></i>
+                      </a>
+                    </td>
+                    <td>{{ item?.id }}</td>
+                    <td>{{ item?.code }}</td>
+                    <td>{{ item?.name }}</td>
+                    <td>{{ item?.price }}</td>
+                    <td>{{ item?.lastUpdated | date : "yyyy-MM-dd" }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <h3 class="mb-0">
+              <!-- <ngb-pagination
+                class="d-flex justify-content-end"
+                [(page)]="pageNumber"
+                [pageSize]="pageSize"
+                [collectionSize]="models?.totalItems"
+                (pageChange)="modelPageChange($event, modelSearchValue.value)"
+              ></ngb-pagination> -->
+            </h3>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
