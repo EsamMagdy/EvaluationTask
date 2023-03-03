@@ -1,3 +1,4 @@
+import { FeatureService } from './../../../../services/feature.service';
 import { Product } from './../_models/product.model';
 import { ProductService } from './../../../../services/product.service';
 import { Feature } from './../../features/_models/feature.model';
@@ -9,7 +10,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product',
@@ -19,10 +21,14 @@ import { Router } from '@angular/router';
 export class ProductComponent implements OnInit {
   form!: FormGroup;
   features!: Feature[];
+  selectedProduct!: any;
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private productService: ProductService
+    private productService: ProductService,
+    private route: ActivatedRoute,
+    private toastr: ToastrService,
+    private featureService: FeatureService
   ) {
     this.form = this.fb.group({
       name: [null, [Validators.required]],
@@ -43,16 +49,42 @@ export class ProductComponent implements OnInit {
     return this.form.get('features') as FormControl;
   }
   ngOnInit() {
-    this.features = featuresMocks;
+    debugger;
+    this.featureService.getFeaturesObservable().subscribe((features) => {
+      debugger;
+      this.features = features;
+    });
+    this.featureService.initFeatures();
+    // this.features = featuresMocks;
+
+    this.route.params.subscribe((res) => {
+      if (res && res['id']) {
+        let id = parseInt(res['id']);
+        this.getProductById(id);
+      }
+    });
+  }
+  getProductById(id: number) {
+    debugger;
+    this.selectedProduct = this.productService.getProductById(id);
+
+    this.form.patchValue(this.selectedProduct);
   }
   onAdd() {
-    debugger;
-    // this.productService.getProductsObservable().subscribe((s: any) => {
-    //   let s = s;
-    // });
     if (!this.form.valid) return;
+
     let model = this.form.value as Product;
 
+    /** for edit product */
+    if (this.selectedProduct) {
+      this.productService.editProduct(this.selectedProduct.id, model);
+      this.toastr.success('Product has been updated successfully.');
+      this.router.navigate(['/product-list']);
+      return;
+    }
+
     this.productService.addProduct(model);
+    this.toastr.success('Product has been added successfully.');
+    this.router.navigate(['/product-list']);
   }
 }

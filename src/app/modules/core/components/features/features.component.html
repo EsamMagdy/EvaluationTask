@@ -1,0 +1,175 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 project-list">
+      <div class="card">
+        <div class="card-header">
+          <ul class="nav nav-pills card-header-pills">
+            <li class="nav-item col">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="openModalFunc()"
+              >
+                New Feature
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-info" role="alert" *ngIf="!features?.length">
+            No Features
+          </div>
+
+          <ng-container *ngIf="features?.length">
+            <div class="table-responsive">
+              <p-table [value]="features" dataKey="id" editMode="row">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th style="width: 20%">ID</th>
+                    <th style="width: 30%">Name</th>
+                    <th style="width: 50%">Actions</th>
+                  </tr>
+                </ng-template>
+                <ng-template
+                  pTemplate="body"
+                  let-rowData
+                  let-editing="editing"
+                  let-ri="rowIndex"
+                >
+                  <tr [pEditableRow]="rowData">
+                    <td>
+                      {{ rowData.id }}
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                        <ng-template pTemplate="input">
+                          <input
+                            pInputText
+                            type="text"
+                            [(ngModel)]="rowData.name"
+                            year
+                          />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                          {{ rowData.name }}
+                        </ng-template>
+                      </p-cellEditor>
+                    </td>
+
+                    <td>
+                      <button
+                        *ngIf="!editing"
+                        pButton
+                        pRipple
+                        type="button"
+                        pInitEditableRow
+                        icon="pi pi-pencil"
+                        (click)="onRowEditInit(rowData)"
+                        class="p-button-rounded p-button-text"
+                      ></button>
+                      <button
+                        *ngIf="editing"
+                        pButton
+                        pRipple
+                        type="button"
+                        pSaveEditableRow
+                        icon="pi pi-check"
+                        (click)="onRowEditSave(rowData)"
+                        class="p-button-rounded p-button-text p-button-success mr-2"
+                      ></button>
+                      <button
+                        *ngIf="editing"
+                        pButton
+                        pRipple
+                        type="button"
+                        pCancelEditableRow
+                        icon="pi pi-times"
+                        (click)="onRowEditCancel(rowData, ri)"
+                        class="p-button-rounded p-button-text p-button-danger"
+                      ></button>
+                      <button
+                        *ngIf="!editing"
+                        pButton
+                        pRipple
+                        type="button"
+                        pCancelEditableRow
+                        icon="pi pi-trash"
+                        (click)="onDeleteFeature(rowData.id)"
+                        class="p-button-rounded p-button-text p-button-danger"
+                      ></button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <h3 class="mb-0"></h3>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<button
+  #openModal
+  hidden
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop"
+></button>
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <form [formGroup]="form" (ngSubmit)="onAdd()" #addForm="ngForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Add Feature</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <input
+            pInputText
+            type="text"
+            class="form-control"
+            name="title"
+            id="title"
+            formControlName="name"
+          />
+
+          <div
+            *ngIf="Name.hasError('required') && addForm.submitted"
+            class="error-msg p-1 small"
+            role="alert"
+          >
+            <i class="fas fa-times-circle me-2"></i>
+            Name is Required
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            #closeModal
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

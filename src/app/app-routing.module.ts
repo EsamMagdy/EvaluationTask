@@ -3,11 +3,12 @@ import { ProductListComponent } from './modules/core/components/product-list/pro
 import { HomeComponent } from './pages/home/home.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { FeaturesComponent } from './modules/core/components/features/features.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'admin',
+    redirectTo: 'product-list',
     pathMatch: 'full',
   },
   {
@@ -21,9 +22,14 @@ const routes: Routes = [
     component: ProductComponent,
   },
   {
-    path: 'edit-product:/id',
+    path: 'edit-product/:id',
 
     component: ProductComponent,
+  },
+  {
+    path: 'feature',
+
+    component: FeaturesComponent,
   },
   {
     path: '**',

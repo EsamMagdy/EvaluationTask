@@ -1,0 +1,55 @@
+<div class="card">
+  <div class="card-header"><h4>Filters</h4></div>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="filter()" #filterForm="ngForm">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="" class="mb-2">Name</label>
+            <input
+              pInputText
+              type="text"
+              class="form-control mb-2"
+              name="title"
+              id="title"
+              placeholder="name..."
+              formControlName="name"
+            />
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="" class="mb-2"
+              >Price {{ Price.value[0] + " - " + Price.value[1] }}</label
+            >
+            <p-slider
+              formControlName="price"
+              [max]="1000"
+              [range]="true"
+              styleClass="form-control mb-2"
+            ></p-slider>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="" class="mb-2">Features</label>
+            <p-multiSelect
+              [options]="features"
+              optionLabel="name"
+              placeholder="select..."
+              styleClass="form-control mb-2"
+              formControlName="features"
+            ></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="col-12 d-flex mt-4">
+          <button type="submit" class="btn btn-primary me-2">Filter</button>
+          <button type="button" class="btn btn-secondary" (click)="resetForm()">
+            Reset
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -4,7 +4,7 @@ export interface Product {
   code: number;
   name: string;
   price: number;
-  lastUpdated?: Date;
+  lastUpdated: Date;
   isChecked?: boolean;
   features: Feature[];
 }

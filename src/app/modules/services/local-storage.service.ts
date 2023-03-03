@@ -1,3 +1,4 @@
+import { Feature } from './../core/components/features/_models/feature.model';
 import { Product } from './../core/components/product-list/_models/product.model';
 import { Injectable } from '@angular/core';
 import { LocalStorageKeys } from '../shared/models/local-strorage-keys.model';
@@ -17,15 +18,15 @@ export class LocalStorageService {
     localStorage.setItem(LocalStorageKeys.Product, JSON.stringify(products));
   }
   get Features() {
-    let featureStorage = localStorage.getItem(LocalStorageKeys.Product)!;
+    let featureStorage = localStorage.getItem(LocalStorageKeys.Feature)!;
 
-    if (!featureStorage) return null;
+    if (!featureStorage) return [];
 
-    return JSON.parse(featureStorage) as Product[];
+    return JSON.parse(featureStorage) as Feature[];
   }
-  set Features(features: any) {
-    if (!features || !features.length) return;
+  set Features(features: Feature[]) {
+    // if (!features || !features.length) return;
 
-    localStorage.setItem(LocalStorageKeys.Product, JSON.stringify(features));
+    localStorage.setItem(LocalStorageKeys.Feature, JSON.stringify(features));
   }
 }

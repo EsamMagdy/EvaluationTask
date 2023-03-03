@@ -1,3 +1,4 @@
+import { ProductFilterComponent } from './components/product-list/product-filter/product-filter.component';
 import { PrimeNgModule } from './../shared/primeng.module';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
@@ -13,6 +14,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { FeaturesComponent } from './components/features/features.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NavbarComponent,
     ProductListComponent,
     SidebarComponent,
+    ProductFilterComponent,
+    FeaturesComponent,
   ],
   imports: [
     RouterModule,
@@ -48,6 +52,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ToastrModule,
     NgMultiSelectDropDownModule,
     NgSelectModule,
+    FeaturesComponent,
   ],
 })
 export class CoreModule {}
