@@ -4,27 +4,25 @@
      21. Select 2 CSS Start
 ==========================**/
 
-  
-  .select2 {
-    max-width: 100%;
-  }
-  
+.select2 {
+  max-width: 100%;
+}
 
-  
- 
-  
-  .select2-drpdwn {
-    .form-control {
-      border-radius: 5px;
-    }
+.select2-drpdwn {
+  .form-control {
+    border-radius: 5px;
   }
+}
 
-  .error-msg {
-    color: #dc3545 !important;
-    margin-top: 1px;
-    text-align: start;
-  }
-  
-  /**=====================
+.error-msg {
+  color: #dc3545 !important;
+  margin-top: 1px;
+  text-align: start;
+}
+button.swal2-cancel {
+  margin-right: 10px !important;
+}
+
+/**=====================
        21. Select 2 CSS Ends
   ==========================**/

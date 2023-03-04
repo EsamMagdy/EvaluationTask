@@ -39,10 +39,6 @@ export class ProductListComponent implements OnInit {
   checkUncheckAll(checked: any) {
     this.products.forEach((c) => (c.isChecked = checked.checked));
   }
-  deleteProducts(forChecked = false, ...ids: number[]) {
-    if (forChecked) this.deleteProductsForChecked();
-    else this.deleletProductFunc();
-  }
   deleletProductFunc(...ids: number[]) {
     let idsString = ids.join(',');
 
@@ -59,6 +55,11 @@ export class ProductListComponent implements OnInit {
       });
   }
   deleteProductsForChecked() {
+    if (!this.products.length) {
+      this.toastr.error('Please add product first');
+      return;
+    }
+
     let selectedProducts = this.products.filter((s) => s.isChecked);
 
     if (!selectedProducts.length) {
