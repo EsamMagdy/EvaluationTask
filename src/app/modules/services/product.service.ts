@@ -12,21 +12,12 @@ export class ProductService {
   private products: Product[] = [];
 
   products$ = new Subject<Product[]>();
-  aa = new Subject<string>();
 
   initProducts() {
-    debugger;
-
     let productsSaved = this.getProducts();
 
-    // if (!productsSaved || !productsSaved.length) {
-    //   this.populateProduct();
-    //   this.sortProduct('name');
-    //   return;
-    // }
-
     this.products = productsSaved;
-    // this.sortProduct('name');
+
     this.products$.next(this.products);
   }
   populateProduct() {
@@ -59,7 +50,6 @@ export class ProductService {
     this.localStorageService.Products = this.products;
   }
   editProduct(id: number, model: Product) {
-    debugger;
     this.products = this.getProducts();
 
     let productIndex = this.products.findIndex(
@@ -83,7 +73,6 @@ export class ProductService {
     }
   }
   filterProducts(model: ProductFilter) {
-    debugger;
     this.products = this.getProducts();
 
     if (model.name) {
@@ -120,7 +109,6 @@ export class ProductService {
     return this.localStorageService.Products;
   }
   deleteProducts(ids: number[]) {
-    debugger;
     let selectedProducts = this.products.filter((s) => !ids.includes(s.id));
 
     this.products = [];
@@ -155,7 +143,6 @@ export class ProductService {
       | 'date'
       | 'date_desc'
   ) {
-    debugger;
     // this.products = this.products.sort(function (a, b) {
     //   return a.name.localeCompare(b.name) || a.price - b.price;
     // });

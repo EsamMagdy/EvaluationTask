@@ -16,11 +16,6 @@ export class FeatureService {
   initFeatures() {
     let featuresSaved = this.getFeatures();
 
-    // if (!featuresSaved || !featuresSaved.length) {
-    //   this.populateFeatures();
-    //   return;
-    // }
-
     this.features = featuresSaved;
     this.features$.next(this.features);
   }
@@ -30,6 +25,7 @@ export class FeatureService {
     this.features.push(...featuresToPopualte);
 
     this.features$.next(this.features);
+
     this.localStorageService.Features = this.features;
   }
   getFeatureById(id: number) {
@@ -39,16 +35,21 @@ export class FeatureService {
 
     return feature;
   }
-
   addFeature(feature: Feature) {
     if (!feature) return;
 
     feature.id = this.getLastFeatureId() + 1;
 
     this.features.push(feature);
+
     this.features$.next(this.features);
 
     this.localStorageService.Features = this.features;
+  }
+  bulkAddFeature(features: Feature[]) {
+    features.forEach((feature) => {
+      this.addFeature(feature);
+    });
   }
   editFeature(id: number, feature: Feature) {
     this.features = this.getFeatures();
@@ -70,8 +71,22 @@ export class FeatureService {
       this.localStorageService.Features = this.features;
     }
   }
+  bulkEdit(features: Feature[]) {
+    this.features = this.getFeatures();
+
+    for (let index = 0; index < this.features.length; index++) {
+      const element = this.features[index];
+
+      let feature = features.find((s) => s.id == element.id);
+
+      this.features[index] = feature ? feature : this.features[index];
+    }
+
+    this.features$.next(this.features);
+
+    this.localStorageService.Features = this.features;
+  }
   getLastFeatureId() {
-    debugger;
     let last = this.features[this.features.length - 1];
 
     return last ? last.id : 0;
@@ -83,7 +98,6 @@ export class FeatureService {
     return this.localStorageService.Features;
   }
   deleteFeatures(id: number) {
-    debugger;
     let selectedFeatures = this.features.filter((s) => id != s.id);
 
     this.features = [];
@@ -92,6 +106,7 @@ export class FeatureService {
     this.features$.next(this.features);
     this.deleteFeatureFromProduct(id);
   }
+
   isFeatureRelatedToProduct(featureId: number) {
     let products = this.localStorageService.Products;
 
@@ -102,7 +117,6 @@ export class FeatureService {
     });
   }
   deleteFeatureFromProduct(id: number) {
-    debugger;
     let products = this.localStorageService.Products;
 
     for (let index = 0; index < products.length; index++) {
@@ -114,5 +128,19 @@ export class FeatureService {
     }
 
     this.localStorageService.Products = products;
+  }
+  bulkDelete(featureIds: number[]) {
+    let selectedFeatures = this.features.filter(
+      (s) => !featureIds.includes(s.id)
+    );
+
+    this.features = [];
+    this.features.push(...selectedFeatures);
+    this.localStorageService.Features = this.features;
+    this.features$.next(this.features);
+
+    featureIds.forEach((featureId) => {
+      this.deleteFeatureFromProduct(featureId);
+    });
   }
 }

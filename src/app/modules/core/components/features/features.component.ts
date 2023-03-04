@@ -9,6 +9,7 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
+import { SwalService } from 'src/app/modules/services/swal.service';
 const Swal = require('sweetalert2');
 @Component({
   selector: 'app-features',
@@ -24,7 +25,8 @@ export class FeaturesComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
-    private featureService: FeatureService
+    private featureService: FeatureService,
+    private swalService: SwalService
   ) {
     this.form = this.fb.group({
       name: [null, [Validators.required]],
@@ -35,59 +37,37 @@ export class FeaturesComponent implements OnInit {
   }
   ngOnInit() {
     this.featureService.getFeaturesObservable().subscribe((features) => {
-      debugger;
       this.features = features;
     });
     this.featureService.initFeatures();
   }
 
   onRowEditInit(feature: Feature) {
-    debugger;
     this.clonedProducts[feature.id] = { ...feature };
   }
 
   onRowEditSave(feature: Feature) {
-    debugger;
     this.featureService.editFeature(feature.id, feature);
     this.toastr.success('Feature has been updated successfully.');
   }
 
-  onRowEditCancel(product: Feature, index: number) {
-    debugger;
-  }
+  onRowEditCancel(product: Feature, index: number) {}
   openModalFunc() {
     this.form.reset();
     this.openModal.nativeElement.click();
   }
   onDeleteFeature(id: number) {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger',
-      },
-      buttonsStyling: false,
-    });
-
+    let title = `Are you sure to delete feature with id ${id}`;
     let text = this.featureService.isFeatureRelatedToProduct(id)
       ? 'Note: this feature is assigned to product'
       : '';
 
-    swalWithBootstrapButtons
-      .fire({
-        title: `Are you sure to delete feature with id ${id}`,
-        text: text,
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true,
-      })
-      .then((result: any) => {
-        if (result.value) {
-          this.featureService.deleteFeatures(id);
-          this.toastr.success('Feature has been deleted.');
-        }
-      });
+    this.swalService.fireSwal(title, text).then((result: any) => {
+      if (result.value) {
+        this.featureService.deleteFeatures(id);
+        this.toastr.success('Feature has been deleted.');
+      }
+    });
   }
   onAdd() {
     if (!this.form.valid) return;

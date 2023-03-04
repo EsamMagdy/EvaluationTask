@@ -10,6 +10,7 @@ import {
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Product } from './_models/product.model';
 import { ToastrService } from 'ngx-toastr';
+import { SwalService } from 'src/app/modules/services/swal.service';
 const Swal = require('sweetalert2');
 @Component({
   selector: 'app-product-list',
@@ -25,18 +26,17 @@ export class ProductListComponent implements OnInit {
    */
   constructor(
     private productService: ProductService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private swalService: SwalService
   ) {}
 
   ngOnInit(): void {
     this.productService.getProductsObservable().subscribe((products) => {
-      debugger;
       this.products = products;
     });
     this.productService.initProducts();
   }
   checkUncheckAll(checked: any) {
-    debugger;
     this.products.forEach((c) => (c.isChecked = checked.checked));
   }
   deleteProducts(forChecked = false, ...ids: number[]) {
@@ -45,24 +45,12 @@ export class ProductListComponent implements OnInit {
   }
   deleletProductFunc(...ids: number[]) {
     let idsString = ids.join(',');
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger',
-      },
-      buttonsStyling: false,
-    });
 
-    swalWithBootstrapButtons
-      .fire({
-        title: `Are you sure to delete products with ids ${idsString}`,
-        text: "You won't be able to revert this!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true,
-      })
+    this.swalService
+      .fireSwal(
+        `Are you sure to delete products with ids ${idsString}`,
+        "You won't be able to revert this!"
+      )
       .then((result: any) => {
         if (result.value) {
           this.productService.deleteProducts(ids);
@@ -71,7 +59,6 @@ export class ProductListComponent implements OnInit {
       });
   }
   deleteProductsForChecked() {
-    debugger;
     let selectedProducts = this.products.filter((s) => s.isChecked);
 
     if (!selectedProducts.length) {

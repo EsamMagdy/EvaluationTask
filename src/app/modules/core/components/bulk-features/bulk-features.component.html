@@ -1,0 +1,179 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 project-list">
+      <div class="card">
+        <div class="card-header">
+          <ul class="nav nav-pills card-header-pills">
+            <li class="nav-item col">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="openModalFunc()"
+              >
+                Bulk Add
+              </button>
+            </li>
+            <li class="nav-item col">
+              <button
+                type="button"
+                class="btn btn-success"
+                (click)="bulkEdit()"
+              >
+                Bulk Edit
+              </button>
+            </li>
+            <li class="nav-item col">
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="deleteFeaturesForChecked()"
+              >
+                Bulk Delete
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-info" role="alert" *ngIf="!features?.length">
+            No Features
+          </div>
+
+          <ng-container *ngIf="features?.length">
+            <div class="table-responsive">
+              <p-table
+                [value]="features"
+                dataKey="id"
+                [tableStyle]="{ 'min-width': '50rem' }"
+              >
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th style="width: 25%">
+                      <input
+                        (change)="checkUncheckAll($event.target)"
+                        type="checkbox"
+                      />
+                    </th>
+                    <th style="width: 25%">ID</th>
+                    <th style="width: 25%">Name</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-feature let-editing="editing">
+                  <tr>
+                    <td>
+                      <input
+                        [(ngModel)]="feature.isChecked"
+                        [ngModelOptions]="{ standalone: true }"
+                        type="checkbox"
+                      />
+                    </td>
+                    <td>{{ feature.id }}</td>
+                    <td
+                      [pEditableColumn]="feature.name"
+                      pEditableColumnField="name"
+                    >
+                      <p-cellEditor>
+                        <ng-template pTemplate="input">
+                          <input
+                            pInputText
+                            type="text"
+                            [(ngModel)]="feature.name"
+                            required
+                          />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                          {{ feature.name }}
+                        </ng-template>
+                      </p-cellEditor>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <h3 class="mb-0"></h3>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<button
+  #openModal
+  hidden
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop"
+></button>
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <form [formGroup]="form" (ngSubmit)="onAdd()" #addForm="ngForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Add Feature</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <button class="btn btn-primary" type="button" (click)="addName()">
+            Add Name
+          </button>
+          <div
+            *ngFor="let control of Names.controls; let i = index"
+            formArrayName="names"
+            class="mt-2"
+          >
+            <div [formGroupName]="i" class="row">
+              <div class="col-10">
+                <input
+                  pInputText
+                  type="text"
+                  class="form-control"
+                  name="title"
+                  id="title"
+                  formControlName="name"
+                />
+              </div>
+              <div class="col-auto">
+                <button class="btn btn-danger" (click)="removeName(i)">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </div>
+              <div
+                *ngIf="isNameHasError(control) && addForm.submitted"
+                class="error-msg p-1 small"
+                role="alert"
+              >
+                <i class="fas fa-times-circle me-2"></i>
+                Name is Required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            #closeModal
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

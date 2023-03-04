@@ -41,22 +41,18 @@ export class ProductFilterComponent implements OnInit {
     return this.form.get('features') as FormControl;
   }
   ngOnInit() {
-    debugger;
     this.featureService.getFeaturesObservable().subscribe((features) => {
-      debugger;
       this.features = features;
     });
     this.featureService.initFeatures();
   }
   filter() {
-    debugger;
     let model = this.form.value as ProductFilter;
     console.log(model);
 
     this.productService.filterProducts(model);
   }
   resetForm() {
-    debugger;
     this.form.reset();
     this.Price.setValue([20, 300]);
   }

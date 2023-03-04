@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesComponent } from './components/features/features.component';
+import { BulkFeaturesComponent } from './components/bulk-features/bulk-features.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { FeaturesComponent } from './components/features/features.component';
     SidebarComponent,
     ProductFilterComponent,
     FeaturesComponent,
+    BulkFeaturesComponent,
   ],
   imports: [
     RouterModule,
@@ -53,6 +55,7 @@ import { FeaturesComponent } from './components/features/features.component';
     NgMultiSelectDropDownModule,
     NgSelectModule,
     FeaturesComponent,
+    BulkFeaturesComponent,
   ],
 })
 export class CoreModule {}

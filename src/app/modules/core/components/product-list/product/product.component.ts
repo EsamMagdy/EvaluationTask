@@ -49,13 +49,10 @@ export class ProductComponent implements OnInit {
     return this.form.get('features') as FormControl;
   }
   ngOnInit() {
-    debugger;
     this.featureService.getFeaturesObservable().subscribe((features) => {
-      debugger;
       this.features = features;
     });
     this.featureService.initFeatures();
-    // this.features = featuresMocks;
 
     this.route.params.subscribe((res) => {
       if (res && res['id']) {
@@ -65,7 +62,6 @@ export class ProductComponent implements OnInit {
     });
   }
   getProductById(id: number) {
-    debugger;
     this.selectedProduct = this.productService.getProductById(id);
 
     this.form.patchValue(this.selectedProduct);

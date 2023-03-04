@@ -4,6 +4,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FeaturesComponent } from './modules/core/components/features/features.component';
+import { BulkFeaturesComponent } from './modules/core/components/bulk-features/bulk-features.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,11 @@ const routes: Routes = [
     path: 'feature',
 
     component: FeaturesComponent,
+  },
+  {
+    path: 'bulk-feature',
+
+    component: BulkFeaturesComponent,
   },
   {
     path: '**',
